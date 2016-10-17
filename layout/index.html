@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>bootstrap_grid</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<style>
+
+	h1, h2, h3, h4, h5, h6, p, ul, li, a{ /*itcss*/
+		margin: 0px;
+		padding: 0px;
+	} 
+
+	header{
+		background-color: #fa5882;
+		text-align: center;
+	}
+
+	nav{
+		background-color: #6e6e6e;
+	}
+
+
+	nav  li{
+		list-style-type: none;
+		background-color: #6e6e6e;
+		text-align: center;
+	}
+
+	nav li:hover{
+		background-color: #fa5882;
+		color: #ffffff;
+	}
+
+	nav a{
+		color: #fff;
+		text-decoration: none;
+		/*display: block;*/
+	}
+
+
+	main{
+		background-color: #2efe64;
+		text-align: center;
+	}
+
+	.col-xs-12 .col-md-4{
+		background-color: #ffffff;
+	}
+
+
+	aside{
+		background-color: #f3f781;
+		text-align: center;
+	}
+
+	footer{
+		background-color: #6e6e6e;
+		text-align: center;
+	}
+
+	</style>
+</head>
+<body>
+	<div class="container">
+		
+		<header>header</header>
+		<div class="row">
+			<nav>
+				<ul>
+					<div class="col-xs-12 col-md-3"><li><a href="#">Home</a></li></div>
+					<div class="col-xs-12 col-md-3"><li><a href="#">Link1</a></li></div>
+					<div class="col-xs-12 col-md-3"><li><a href="#">Link2</a></li></div>
+					<div class="col-xs-12 col-md-3"><li><a href="#">Link3</a></li></div>	
+				</ul>
+			</nav>
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-md-8">
+				<main>main
+					<div class="row">
+						<div class="col-xs-12 col-md-4">Box1</div>
+						<div class="col-xs-12 col-md-4">Box2</div>
+						<div class="col-xs-12 col-md-4">Box3</div>
+					</div>main
+				</main>
+			</div>
+			<div class="col-xs-12 col-md-4">
+				<aside>aside</aside>
+			</div>
+		</div>
+		<footer>footer</footer>
+	</div>
+</body>
+</html>
