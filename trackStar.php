@@ -34,7 +34,7 @@
 		}
 
 		//Hier würde der Trigger für das Löschen eines Projektes ohne Anwendung von Java Script stehen
-			$tmp=false;
+
 
 			if(isset($_GET['deleteProject']))
        		{
