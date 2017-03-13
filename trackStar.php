@@ -10,7 +10,7 @@
 </head>
 <body>
 
-	<div class="container">
+	<div class="container"> 
 	<?php
 	//DB Settings
 		$host='localhost';
@@ -19,6 +19,7 @@
 		$pwd='htluser';
 		
 		//echo var_dump($db);
+		//in mysql data mitloggen
 
 		echo "<h1>Projektübersicht</h1>";
 
@@ -39,14 +40,25 @@
 			if(isset($_GET['deleteProject']))
        		{
 	        	$deleteID=$_GET['deleteProject'];
-	        	$delete=$db->query("DELETE FROM project WHERE id=$deleteID");
+	        	$delete=$db->prepare("DELETE FROM project WHERE id=:deleteID");
+	        	$delete->bindParam(':deleteID', $deleteID, PDO::PARAM_INT);
+	        	$delete->execute();
+	        	echo ($delete->fetch());
 
+
+	        	/* so geht es: <?php
+				//...
+				$stmt1 = $db->prepare("SELECT * FROM project WHERE
+						p_id=:pojectID");
+				$stmt1->bindParam(':pojectID', $_GET['pId'], PDO::PARAM_INT);
+				$stmt1->execute();
+				print_r($stmt1->fetch());*/
 			 
 				$countDeleted=$delete->rowCount();
 				echo "Gelöschte Zeilen: $countDeleted";
 
 	       	if($countDeleted == 1)
-	       		echo '<p class="bg-access">Das Projekt wurde erfolgreich gelöscht!</p>';
+	       		echo '<p class="bg-success">Das Projekt wurde erfolgreich gelöscht!</p>';
 	     
 	       	else
 	       		echo '<p class="bg-danger">Das Projekt konnte nicht gelöscht werden.</p>';
@@ -59,12 +71,17 @@
 	        if(isset($_GET['editProject']) || isset($_POST['editProject']))
 	        { 
 	        	$editID=$_GET['editProject'];
-	        	$change=$db->query("SELECT name, description, createDate FROM project WHERE id=$editID");
-				$toChange=$change->fetch(PDO::FETCH_ASSOC);
+	        	$change=$db->prepare("SELECT name, description, createDate FROM project WHERE id=:editID");
+				$change->bindParam(':editID', $editID, PDO::PARAM_INT);
+				$change->execute();
+				$toChange=$change->fetch();
+	        	
+	        	
+
 	        	if(!isset($_POST['editProjectAktualisieren']))
 	        	{ ?>
+	        		<h3><?php echo $toChange['name'] ?> bearbeiten</h3>
 	        		<form class="form-horizontal" action="<?php $_SERVER['PHP_SELF']?>" method="POST">
-	        		<h1><?php echo $toChange['name'] ?> bearbeiten</h1>
 	        		<div class="form-group">
 	        			<label for="editProjectName" class="col-sm-2 control-label">Name</label>
 	        			<input name="editProjectName" class="col-sm-10 control-label" type="text" value="<?php echo $toChange['name'] ?>">
@@ -87,13 +104,20 @@
 
 	        else
 	        {
-	        	$update=$db->query("UPDATE project SET name=\"".$_POST['editProjectName']."\", description=\"".$_POST['editProjectDesc']."\", createDate=\"".$_POST['editProjectDate']."\" WHERE id=\"".$editID."\"");
+	        	//$update=$db->query("UPDATE project SET name=\"".$_POST['editProjectName']."\", description=\"".$_POST['editProjectDesc']."\", createDate=\"".$_POST['editProjectDate']."\" WHERE id=\"".$editID."\"");
+	        	$update=$db->prepare("UPDATE project SET name=:myname, description=:mydesc, createDate=:mycre WHERE id=:myid");
+				$update->bindParam(':myname', $_POST['editProjectName'], PDO::PARAM_STR);
+				$update->bindParam(':mydesc', $_POST['editProjectDesc'], PDO::PARAM_STR);
+				$update->bindParam(':mycre', $_POST['editProjectDate'], PDO::PARAM_STR);
+				$update->bindParam(':myid', $editID, PDO::PARAM_INT);
+				$update->execute();
+				echo $update->fetch();
 				//$toUpdate=$update->execute();
 				$count=$update->rowCount();
 				echo "Bearbeitete Zeilen: $count";
 
 				if($count==1)
-					echo "<br>Das Bearbeiten war erfolgreich!";
+					echo "<p class=\"bg-success\">Das Bearbeiten war erfolgreich!</p>";
 
 				//print("Return number of rows that were deleted:\n");
 				//$count = $del->rowCount();
@@ -123,7 +147,7 @@
 			echo "<tbody>";
 				foreach ($tmp as $item) { //$res->fetchAll(PDO::FETCH_OBJ); das ist ein static zugriff auf die klassenkonstante der klasse pdo oder ich kann auch $db->query($sql) schreiben statt $tmp
 					echo "<tr>";
-					echo "<td>$item[name]</td>";
+					echo "<td>".htmlspecialchars($item['name'])."</td>";
 					echo "<td>$item[description]</td>";
 					echo "<td>$item[createDate]</td>";
 					echo "<td>
