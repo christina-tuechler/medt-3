@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>JS-Übung 1</title>
+  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    
+    <script>
+      $(document).ready(function(){
+        //wird ausgeführt wenn das laden ausgeführt wird
+        $('.add-icon').click(addLine);
+        $('.remove-icon').click(removeLine);
+
+        //CONSOLE ÖFFNEN!!!
+
+        function addLine(){
+          $("ul").append("<li class=\"col-xs-12\">Appended item</li>");
+        }
+
+        function removeLine(){
+          $("li:last-child").remove();
+        }
+      });
+    </script>
+    
+</head>
+<body>
+	<div class="container bg-info" style="height:1000px;">
+
+		<header>
+			<h1 style="color: white; font-family: 'Verdana';"> <span class="glyphicon glyphicon-th-list"> Liste</h1>
+		</header>
+
+        <br>
+        <br>
+          <span class="glyphicon glyphicon-plus add-icon col-xs-6" style="padding-right:10px; font-size:200%; cursor:pointer;"aria-hidden="true"></span>
+          <span class="glyphicon glyphicon-minus remove-icon col-xs-6" style="padding-right:10px; font-size:200%; cursor:pointer;" aria-hidden="true"></span>
+
+          <br>
+          <br>
+          <br>
+
+          <ul>
+            <li class="col-xs-12">Item 1</li>
+          </ul>
+	 		
+	</div>
+</body>
+</html>
